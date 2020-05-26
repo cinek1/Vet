@@ -2,6 +2,7 @@ package jwzp2020.vet.controller;
 
 
 import jwzp2020.vet.model.Client;
+import jwzp2020.vet.model.ClientWithPets;
 import jwzp2020.vet.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +21,11 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public Client getClientById(@PathVariable int id) {
-            return clientService.getClient(id);
+    public Client getClientById(@PathVariable int id,  @RequestParam(required = false) boolean withPet) {
+            if (withPet) return clientService.getClientWithPets(id);
+            return  clientService.getClient(id);
     }
-    @GetMapping("/{mail}")
-    public Client getClientByMail(@PathVariable String mail) {
-        return clientService.getClientByEmail(mail);
-    }
+
 
     @GetMapping
     public List<Client> getAllClient(){
@@ -35,6 +34,11 @@ public class ClientController {
     @PostMapping
     public Client addClient(@RequestBody Client newClient) {
         return clientService.addClient(newClient);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteClient(@PathVariable int id){
+        clientService.delete(id);
     }
 
 }

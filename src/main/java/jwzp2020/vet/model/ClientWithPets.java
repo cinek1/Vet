@@ -13,4 +13,8 @@ public class ClientWithPets extends Client {
         super(client.getFirstName(), client.getSecondName(), client.getHomeAdress(), client.getMail());
         this.pets = pets;
     }
+
+    public List<Pet> getPets() {
+        return pets;
+    }
 }
