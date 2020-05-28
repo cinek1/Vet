@@ -31,6 +31,9 @@ public interface VisitRepository extends JpaRepository<Visit, Long> {
             nativeQuery = true)
     List<Visit> findByDay(Date date);
 
+
+
+
     @Transactional
     @Modifying
     @Query("update Visit set status_visit = ?2 where id = ?1")

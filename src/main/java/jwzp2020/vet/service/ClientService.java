@@ -1,5 +1,6 @@
 package jwzp2020.vet.service;
 
+import jwzp2020.vet.exception.ResourceNotFoundException;
 import jwzp2020.vet.model.Client;
 import jwzp2020.vet.model.ClientWithPets;
 import jwzp2020.vet.repository.ClientRepository;
@@ -21,11 +22,11 @@ public class ClientService {
     }
 
     public Client getClient(int id) {
-        return clientRepository.findById(id).get();
+        return clientRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Unknown client with id: " + id));
     }
 
     public ClientWithPets getClientWithPets(int id){
-        var client = clientRepository.findById(id).get();
+        var client = clientRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Unknown client with id: " + id));
         var pets = petRepository.getClientPets(id);
         return new ClientWithPets(client, pets);
     }
@@ -46,8 +47,4 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Client getClientByEmail(String email){
-        if (clientRepository.findByMail(email).isPresent()) return clientRepository.findByMail(email).get();
-        return null;
-    }
 }

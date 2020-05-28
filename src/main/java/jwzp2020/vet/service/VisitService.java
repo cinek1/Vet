@@ -1,6 +1,9 @@
 package jwzp2020.vet.service;
 
+import jwzp2020.vet.exception.ResourceNotFoundException;
+import jwzp2020.vet.exception.WrongDateOrTimeException;
 import jwzp2020.vet.model.StatusVisit;
+import jwzp2020.vet.model.TimeVisit;
 import jwzp2020.vet.model.Visit;
 import jwzp2020.vet.repository.VisitRepository;
 import org.springframework.http.HttpStatus;
@@ -8,17 +11,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.List;
 
 @Service
 public class VisitService {
 
     private final VisitRepository visitRepository;
+    private final Clock clock;
 
-    public VisitService(VisitRepository visitRepository){
+    public VisitService(VisitRepository visitRepository, Clock clock){
         this.visitRepository = visitRepository;
+        this.clock = clock;
     }
 
     public List<Visit> getAllVisit() {
@@ -27,7 +31,7 @@ public class VisitService {
 
     public Visit getVisitById(int id){
         return visitRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown visit with id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Unknown visit with id " + id));
     }
 
     public List<Visit> getClientVisit(int id){
@@ -40,8 +44,24 @@ public class VisitService {
 
 
     public Visit addVisit(Visit visit){
-        visitRepository.save(visit);
-        return visit;
+        if (checkDate(visit.getDateVisit())) {
+            visitRepository.save(visit);
+            return visit;
+        }
+        else throw  new WrongDateOrTimeException("Time can't overlaps");
+    }
+
+    private boolean checkVisitHour(LocalDate date, TimeVisit timeVisit, LocalTime hour){
+        var visits = visitRepository.findByDay(java.sql.Date.valueOf(date));
+        boolean isVisitStart =  visits.stream().anyMatch(w -> w.getPlanHour().isBefore(hour) &&
+                w.getPlanHour().plusMinutes(w.getTimeVisit().getMinutes()).isAfter(hour));
+        boolean isVisitEnd =  visits.stream().anyMatch(w -> w.getPlanHour().isBefore(hour.plusMinutes(timeVisit.getMinutes())) &&
+                w.getPlanHour().plusMinutes(w.getTimeVisit().getMinutes()).isAfter(hour.plusMinutes(timeVisit.getMinutes())));
+        return !(isVisitEnd && isVisitStart);
+    }
+
+    private boolean checkDate(LocalDate date){
+        return LocalDate.now(clock).isBefore(date);
     }
 
     public void addDescripe(int id, String descripe){

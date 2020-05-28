@@ -45,7 +45,7 @@ public class PetController {
     }
 
     @DeleteMapping("/{id}")
-    public void setDateDeath(@PathVariable int id) {
+    public void deletePet(@PathVariable int id) {
         petService.delete(id);
     }
 }

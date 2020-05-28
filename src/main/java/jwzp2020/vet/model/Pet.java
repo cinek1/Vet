@@ -1,5 +1,6 @@
 package jwzp2020.vet.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 
 @Entity
 @JsonSerialize
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,6 +20,17 @@ public class Pet {
     private Specie specie;
     private LocalDate dateOfBirth;
     private LocalDate dateOfDeath;
+
+    public Pet(){
+
+    }
+
+    public Pet(String name, Specie specie, LocalDate dateOfBirth, LocalDate dateOfDeath) {
+        this.name = name;
+        this.specie = specie;
+        this.dateOfBirth = dateOfBirth;
+        this.dateOfDeath = dateOfDeath;
+    }
 
 
     public String getName() {
@@ -64,10 +77,3 @@ public class Pet {
 }
 
 
-enum Specie{
-    cat,
-    dog,
-    rabbit,
-    fish,
-    another
-}
