@@ -47,6 +47,5 @@ Method: PUT``` /visits/{id}```
 #### All data is saved in the postgreSQL database. 
 
 ### To do:
-* Tests 
 * Logs
 * Deploy on heroku 
