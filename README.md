@@ -7,9 +7,9 @@ Done:
 * User can get List of Clients    
 Method: GET ``` /clients ```
 * User can get one Client  
-Method: GET ```  /clients/{id}
+Method: GET ```  /clients/{id}  ```
 * User can get one Client with pets 
-Method: GET ```  /clients/{id}/withPets=true
+Method: GET ```  /clients/{id}/withPets=true  ```
 * User can add Client      
 Method: POST ```  /clients ``` Client in JSON body
 * User can delete Client      
