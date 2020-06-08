@@ -48,6 +48,4 @@ Method: PUT``` /visits/{id}```
 
 #### Tests was wrote in JUnit jupiter and used Mockito to mock. 
 
-### To do:
-* Logs
-* Deploy on heroku 
+#### App uses logback to logs.  
