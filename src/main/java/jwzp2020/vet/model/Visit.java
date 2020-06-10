@@ -23,6 +23,19 @@ public class Visit {
     private LocalDate dateVisit;
     private LocalTime planHour;
 
+    public Visit(){
+
+    }
+
+    public Visit(int petId, String descripe, StatusVisit statusVisit, TimeVisit timeVisit, LocalDate dateVisit, LocalTime planHour) {
+        this.petId = petId;
+        this.descripe = descripe;
+        this.statusVisit = statusVisit;
+        this.timeVisit = timeVisit;
+        this.dateVisit = dateVisit;
+        this.planHour = planHour;
+    }
+
     public int getId() {
         return id;
     }

@@ -9,9 +9,15 @@ import org.springframework.stereotype.Service;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class PetService {
+
+    final static Logger logger = LoggerFactory.getLogger(PetService.class);
+
+
     private final PetRepository petRepository;
     private final Clock clock;
 
@@ -22,6 +28,7 @@ public class PetService {
 
     public Pet addPet(Pet pet){
         if (checkDate(pet.getDateOfBirth())){
+            logger.info("Add pet "  + pet.getName());
             return petRepository.save(pet);
         }
         else {
@@ -48,12 +55,15 @@ public class PetService {
 
     public void assignOwner(int id, int ownerId){
         petRepository.assignOwner(id, ownerId);
+        logger.info("Assing owner to pet: "  + id + " owner id:  " + ownerId);
 
     }
 
     public void setDateOfDeath(int id, LocalDate date){
         if (checkPetDateOfDeath(id, date)) {
             petRepository.setDateOfDeath(id, java.sql.Date.valueOf(date));
+            logger.info("Set date of death "  + date + " in pet " + id);
+
         }
         else{
             throw new WrongDateOrTimeException("Wrong date of death " + date);
@@ -62,5 +72,7 @@ public class PetService {
 
     public void delete(int id){
         petRepository.deleteById(id);
+        logger.info("Delete pet "  + id);
+
     }
 }

@@ -13,9 +13,14 @@ import org.springframework.web.server.ResponseStatusException;
 import java.sql.Date;
 import java.time.*;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class VisitService {
+
+    final static Logger logger = LoggerFactory.getLogger(VisitService.class);
+
 
     private final VisitRepository visitRepository;
     private final Clock clock;
@@ -44,20 +49,19 @@ public class VisitService {
 
 
     public Visit addVisit(Visit visit){
-        if (checkDate(visit.getDateVisit())) {
+        if (checkDate(visit.getDateVisit()) && checkVisitHour(visit.getDateVisit(), visit.getTimeVisit(), visit.getPlanHour())) {
             visitRepository.save(visit);
+            logger.info("Add visit: "  + visit.getId());
             return visit;
         }
-        else throw  new WrongDateOrTimeException("Time can't overlaps");
+        else throw  new WrongDateOrTimeException("Time visit is incorrect");
     }
 
     private boolean checkVisitHour(LocalDate date, TimeVisit timeVisit, LocalTime hour){
+        if (!(hour.isAfter(LocalTime.of(8, 0)) && hour.plusMinutes(timeVisit.getMinutes()).isBefore(LocalTime.of(20, 0)))) return false;
         var visits = visitRepository.findByDay(java.sql.Date.valueOf(date));
-        boolean isVisitStart =  visits.stream().anyMatch(w -> w.getPlanHour().isBefore(hour) &&
-                w.getPlanHour().plusMinutes(w.getTimeVisit().getMinutes()).isAfter(hour));
-        boolean isVisitEnd =  visits.stream().anyMatch(w -> w.getPlanHour().isBefore(hour.plusMinutes(timeVisit.getMinutes())) &&
-                w.getPlanHour().plusMinutes(w.getTimeVisit().getMinutes()).isAfter(hour.plusMinutes(timeVisit.getMinutes())));
-        return !(isVisitEnd && isVisitStart);
+        return ! visits.stream().anyMatch(w -> (w.getPlanHour().isBefore( hour.plusMinutes(timeVisit.getMinutes())))
+                &&  (w.getPlanHour().plusMinutes(w.getTimeVisit().getMinutes()).isAfter(hour) ));
     }
 
     private boolean checkDate(LocalDate date){
@@ -66,10 +70,12 @@ public class VisitService {
 
     public void addDescripe(int id, String descripe){
         visitRepository.setDescripe(id, descripe);
+        logger.info("Set descripe in visit: "  + id);
     }
 
     public void setStatus(int id, StatusVisit statusVisit){
         visitRepository.setStatusOfVisit(id, statusVisit);
+        logger.info("Set status in visit: "  + id);
     }
 
     public List<Visit> allVisitInDate(LocalDate date){

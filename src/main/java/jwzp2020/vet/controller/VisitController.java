@@ -54,12 +54,12 @@ public class VisitController {
     }
 
     @PutMapping("/{id}")
-    public void addDescripe(@PathVariable int id, @RequestBody String descripe){
+    public void addDescripe(@PathVariable int id, @RequestParam String descripe){
         visitService.addDescripe(id, descripe);
     }
 
     @GetMapping("/day")
-    public List<Visit> setDateDeath(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public List<Visit> getAllVisitInOneDay(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return visitService.allVisitInDate(date);
     }
 }

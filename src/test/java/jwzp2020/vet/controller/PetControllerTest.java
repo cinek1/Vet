@@ -81,7 +81,7 @@ class PetControllerTest {
     }
 
     @Test
-    void addPetWithWrongId() throws Exception {
+    void getPetWithWrongId() throws Exception {
         given(petService.getPet(2)).willThrow(new ResourceNotFoundException());
         MockHttpServletResponse response = mockMvc.perform(
                 get("/pets/2").accept(MediaType.APPLICATION_JSON))
