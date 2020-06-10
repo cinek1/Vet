@@ -41,8 +41,7 @@ Method: PATCH``` /visits/{id}```
 * User can change decripe
 Method: PUT``` /visits/{id}```
 
-
-
+#### Show raport from build and tests on the Github https://github.com/cinek1/Vet/runs/757516428?check_suite_focus=true
 
 #### All data is saved in the postgreSQL database. 
 
