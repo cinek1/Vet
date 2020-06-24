@@ -15,7 +15,7 @@ Application supports following endpoints:
 | /clients/{id}              | DELETE  | delete client                      |
 | /pets                      | GET     | get list of pets                   |
 | /pets                      | POST    | add new pet                        |
-| /{id}?ownerId=id           | PATCH   | set pet owner                      |
+| /pets/{id}?ownerId=id           | PATCH   | set pet owner                      |
 | /pets/{id}?dateOfDeath=date| PATCH   | set date of death                  |
 | /visits                    | GET     | get list of visits                 |
 | /visits/client/{id}        | GET     | get list of client visits          |
