@@ -26,11 +26,10 @@ Application supports following endpoints:
 | /visits/{id}               | PATCH   | set status of visit                |
 | /visits/{id}               | PUT     | change visit descripe              |
 
-Each visit must have good date and hour. Two visits cannot be in this same hour and cannot overlap.  
+
+Each visit must have good date and hour. Two visits cannot take place at the same hour and cannot overlap.  
 
     
-
-
 #### You can display raport from build and tests on the Github https://github.com/cinek1/Vet/runs/757516428?check_suite_focus=true
 
 #### All data is saved in the postgreSQL database. 
