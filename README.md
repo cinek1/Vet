@@ -2,46 +2,36 @@
 ### Rest Api to for the vet
 #### Spring project for java course 
 
-Done: 
+## Endpoints
 
-* User can get List of Clients    
-Method: GET ``` /clients ```
-* User can get one Client  
-Method: GET ```  /clients/{id}  ```
-* User can get one Client with pets 
-Method: GET ```  /clients/{id}/withPets=true  ```
-* User can add Client      
-Method: POST ```  /clients ``` Client in JSON body
-* User can delete Client      
-Method: Delete ```  /clients/{id} ``` 
+Application supports following endpoints:
 
-* User can get List of Pets 
-Method: GET ```  /pets ```
-* User can add pet         
-Method: POST ```  /pets ``` Pet in JSON body 
-* User can assign pet to owner
-Method: PATCH ```  /pets/{id}?ownerId= ```
-* User can set date of death the pet
-Method: PATCH ```  /pets/death/{id}?dateOfDeath= ```
+| Name                       | Method  | Description                        |        
+|:---------------------------|:--------|:----------------------------------:|
+| /clients                   | GET     | get list of clients                |
+| /clients/{id}              | GET     | get one Client with pets           |             
+| /clients/{id}/withPets=true| GET     | get client with list of pets       |           
+| /clients                   | POST    | add new client                     |    
+| /clients/{id}              | DELETE  | delete client                      |
+| /pets                      | GET     | get list of pets                   |
+| /pets                      | POST    | add new pet                        |
+| /{id}?ownerId=id           | PATCH   | set pet owner                      |
+| /pets/{id}?dateOfDeath=date| PATCH   | set date of death                  |
+| /visits                    | GET     | get list of visits                 |
+| /visits/client/{id}        | GET     | get list of client visits          |
+| /visits/pet/{id}           | GET     | get list of pets visits            |
+| /visits/day?date=date      | GET     | get list of day visits             | 
+| /visits                    | POST    | add new visit                      |
+| /visits/{id}               | DELETE  | delete visit                       |
+| /visits/{id}               | PATCH   | set status of visit                |
+| /visits/{id}               | PUT     | change visit descripe              |
 
-* User can get list of all visits 
-Method: GET ``` /visits ```
-* User can get list of visits client
-Method: GET ``` /visits/client/{id} ```
-* User can get list of visits pet
-Method: GET ``` /visits/pet/{id} ```
-* User can get list of visits in one day 
-Method: GET ``` /visits/day?date= ```
-* User can add visit
-Method: POST ``` /visits```
-* User can delete visit
-Method: DELETE``` /visits/{id}```
-* User can set status of visit
-Method: PATCH``` /visits/{id}```
-* User can change decripe
-Method: PUT``` /visits/{id}```
+Each visit must have good date and hour. Two visits cannot be in this same hour and cannot overlap.  
 
-#### Show raport from build and tests on the Github https://github.com/cinek1/Vet/runs/757516428?check_suite_focus=true
+    
+
+
+#### You can display raport from build and tests on the Github https://github.com/cinek1/Vet/runs/757516428?check_suite_focus=true
 
 #### All data is saved in the postgreSQL database. 
 
